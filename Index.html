@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Stop Watch</title>
+        <link rel = "stylesheet" href = "https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class = "text-center jumbotron container">
+            <div class = "timer">
+                <span class = "min">00</span>:<span class = "sec">00</span>
+            </div>
+            <div class = "btn">
+                <button class = "btn-success btn" data-action="start">Start</button>
+                <button class = "btn-danger btn" data-action="stop">Stop</button><br/><br/>
+                <button class = "btn-primary btn" data-action="reset">Reset</button>
+            </div>
+        </div>
+        <script>
+            const min     = document.querySelector('.min')
+            const sec     = document.querySelector('.sec')
+            const start   = document.querySelector('[data-action ="start"]')
+            const stop    = document.querySelector('[data-action ="stop"]')
+            const reset   = document.querySelector('[data-action ="reset"]')
+            let time      = 00
+            let isRunning = false
+            let interval
+            
+            const startTime = () =>{
+                if(isRunning) return;
+                
+                isRunning = true
+                interval = setInterval(incrementTime , 1000)
+            }
+            
+            const stopTime = () =>{
+                if(!isRunning) return;
+                
+                isRunning = false
+                clearInterval(interval)
+            }
+            
+            const resetTime = () =>{
+                stopTime()
+                
+                time = 0
+                min.textContent = '00'
+                sec.textContent = '00'
+            }
+            
+            const incrementTime = () =>{
+                time++
+                
+                const numMin = Math.floor(time/60)
+                const numSec = time % 60
+                
+                min.textContent = pad(numMin)
+                sec.textContent = pad(numSec)
+            }
+            
+            const pad = (num) =>{
+                return(num<10) ? '0' + num : num;
+            }
+            
+            start.addEventListener("click",startTime)
+            stop.addEventListener("click",stopTime)
+            reset.addEventListener("click",resetTime)
+        </script>
+    </body>
+</html>
